@@ -1,0 +1,75 @@
+﻿<Window
+    x:Class="WindowsFileDirManager.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WindowsFileDirManager"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:WindowsFileDirManager.UserControls"
+    x:Name="MainWindowView"
+    Title="Windows Files and Directories Manager"
+    Width="700"
+    Height="530"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="10">
+
+        <uc:ConfigHeader />
+
+        <TextBlock
+                    Margin="0,5,10,0"
+                    HorizontalAlignment="Left"
+                    Text="Action" />
+        <ComboBox Name="Action">
+            <ComboBoxItem IsSelected="True">Rename</ComboBoxItem>
+            <ComboBoxItem >Delete</ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock
+                    Margin="0,5,10,0"
+                    HorizontalAlignment="Left"
+                    Text="Filter" />
+        <ComboBox Name="Filter">
+            <ComboBoxItem IsSelected="True">startswith</ComboBoxItem>
+            <ComboBoxItem >endswith</ComboBoxItem>
+            <ComboBoxItem >contains</ComboBoxItem>
+            <ComboBoxItem >regexp</ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock
+                    Margin="0,5,10,0"
+                    HorizontalAlignment="Left"
+                    Text="Operation" />
+        <TextBox
+                        Style="{StaticResource TextBoxStyle}"
+                                                IsEnabled="True"
+                        Text="{Binding Operation, Mode=OneWay}" />
+
+
+
+        <Button
+                Grid.Row="2"
+                Height="28"
+                Margin="0,12,0,0"
+                VerticalContentAlignment="Center"
+                Command="{Binding CmdPreview}"
+                Content="Preview"
+                FontSize="16">
+
+        </Button>
+
+        <Button
+                Grid.Row="2"
+                Height="28"
+                Margin="0,12,0,0"
+                VerticalContentAlignment="Center"
+                Command="{Binding CmdConfirm}"
+                Content="Confirm"
+                FontSize="16">
+
+        </Button>
+
+    </StackPanel>
+
+
+</Window>
