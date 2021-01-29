@@ -16,6 +16,20 @@ namespace WindowsFileDirManager
         private FilterType _selectedFilterType;
         private ActionType _selectedActionType;
         public ApplicationData _currentApplicationData;
+        public ApplicationData _previewApplicationData;
+
+        public ApplicationData PreviewApplicationData
+        {
+            get
+            {
+                return _previewApplicationData;
+            }
+            set
+            {
+                _previewApplicationData = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ApplicationData CurrentApplicationData
         {
@@ -116,13 +130,6 @@ namespace WindowsFileDirManager
         public ICommand CmdAddOperation { get; set; }
         public ICommand CmdDeleteSingleOperation { get; set; }
 
-
-        //List Action Rename, Delete
-        //List Filter startswith         endswith        contains  regexp
-        //TestBox 
-        //Preview
-        //Confirm
-
         public MainWindowPageViewModel()
         {
             DirectoryPath = Settings.Default.LastUsedDirectory;
@@ -148,19 +155,24 @@ namespace WindowsFileDirManager
             CurrentApplicationData = FileManagement.ReadFolder(folder);
             CurrentApplicationData.OperationsConfigured = new ObservableCollection<Operation>();
 
-
+            PreviewApplicationData = CurrentApplicationData.DeepCopy();
             return true;
         }
 
         private void ExecutePreview()
         {
-            FileManagement.DoChanges(CurrentApplicationData, DirectoryPath, true);
+            if (CurrentApplicationData.OperationsConfigured.Count == 0)
+            {
+                System.Windows.Forms.MessageBox.Show(Resources.OPERATION_MISSING);
+                return;  
+            }
+            FileManagement.DoChanges(CurrentApplicationData, PreviewApplicationData, DirectoryPath, true);
             ChangesGridVisible = true;
         }
 
         private void ExecuteConfirm()
         {
-            FileManagement.DoChanges(CurrentApplicationData, DirectoryPath, false);
+            FileManagement.DoChanges(CurrentApplicationData, PreviewApplicationData, DirectoryPath, false);
         }
 
         private void ExecuteAddOperation()

@@ -77,5 +77,14 @@ namespace WindowsFileDirManager.Properties {
                 return ResourceManager.GetString("OPERATION_COMPLETED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please add at least one operation.
+        /// </summary>
+        internal static string OPERATION_MISSING {
+            get {
+                return ResourceManager.GetString("OPERATION_MISSING", resourceCulture);
+            }
+        }
     }
 }

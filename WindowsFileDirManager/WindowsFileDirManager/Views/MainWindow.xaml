@@ -179,7 +179,7 @@
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 Visibility="{Binding ChangesGridVisible,  Converter={StaticResource BooleanToVisibilityConverter}}"
-                ItemsSource="{Binding CurrentApplicationData.Files}" >
+                ItemsSource="{Binding PreviewApplicationData.Files}" >
                  
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding }" />

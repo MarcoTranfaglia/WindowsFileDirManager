@@ -123,4 +123,7 @@
   <data name="OPERATION_COMPLETED" xml:space="preserve">
     <value>Operation completed successfully.</value>
   </data>
+  <data name="OPERATION_MISSING" xml:space="preserve">
+    <value>Please add at least one operation</value>
+  </data>
 </root>

@@ -32,7 +32,26 @@ namespace WindowsFileDirManager.Models
 
         public object Clone()
         {
-            return new ApplicationData(Files, OperationsConfigured);
+            return this.MemberwiseClone();
+        }
+
+        public ApplicationData DeepCopy()
+        {
+            ApplicationData other = (ApplicationData)this.MemberwiseClone();
+            other.Files = new ObservableCollection<string>();
+
+            foreach (string file in this.Files)
+            {
+                other.Files.Add(file);
+            }
+
+            other.OperationsConfigured = new ObservableCollection<Operation>();
+
+            foreach (var op in this.OperationsConfigured)
+            {
+                other.OperationsConfigured.Add(op);
+            }
+            return other;
         }
     }
 }
