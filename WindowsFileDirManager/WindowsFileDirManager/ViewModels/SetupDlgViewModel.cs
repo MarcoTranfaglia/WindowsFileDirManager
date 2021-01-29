@@ -15,8 +15,8 @@ namespace WindowsFileDirManager
             _commitDialogAction = commitDialogAction ?? throw new ArgumentNullException(nameof(commitDialogAction));
             CmdSelectFolder = new RelayCommand(x => true, x => ExecuteSelectFolder());
 
-            ResetCommand = new RelayCommand(x => true, x => ResetConfig(x));
-            CommitCommand = new RelayCommand(x => true, x => Commit(x));
+            CmdReset = new RelayCommand(x => true, x => ResetConfig(x));
+            CmdCommit = new RelayCommand(x => true, x => Commit(x));
 
             ReadCurrentConfigFromSettings();
         }
@@ -31,8 +31,8 @@ namespace WindowsFileDirManager
             }
         }
         public ICommand CmdSelectFolder { get; set; }
-        public ICommand ResetCommand { get; set; }
-        public ICommand CommitCommand { get; set; }
+        public ICommand CmdReset { get; set; }
+        public ICommand CmdCommit { get; set; }
 
         private void ReadCurrentConfigFromSettings()
         {

@@ -59,17 +59,18 @@
 
                     <Button
                     Margin="0,0,8,0"
-                    Command="{Binding ResetCommand}"
+                    Command="{Binding CmdReset}"
                     CommandParameter="False"
                     Content="Reset" />
 
                     <Button
                     Margin="0,0,8,0"
-                    Command="{Binding CommitCommand}"
+                    Command="{Binding CmdCommit}"
                     CommandParameter="False"
                     Content="Cancel" />
+                    
                     <Button
-                    Command="{Binding CommitCommand}"
+                    Command="{Binding CmdCommit}"
                     CommandParameter="True"
                     Content="Accept" />
                 </StackPanel>

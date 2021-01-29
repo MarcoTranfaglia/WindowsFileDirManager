@@ -7,12 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <StackPanel >
+    <StackPanel>
+        <TextBlock
+                    Margin="0,5,10,0"
+                    HorizontalAlignment="Left"
+                    Text="Current Directory" />
         <TextBox
                         Style="{StaticResource PathTextBoxStyle}"
                                                 IsEnabled="False"
-                        Text="{Binding SolutionPath, Mode=OneWay}" />
-        <Button Margin="8,0,0,0" Command="{Binding SetupCommand}" Content="Config" />
+                        Text="{Binding DirectoryPath, Mode=OneWay}" />
+        <Button Margin="8,0,0,0" Command="{Binding CmdSetup}" Content="Config" />
 
 
 

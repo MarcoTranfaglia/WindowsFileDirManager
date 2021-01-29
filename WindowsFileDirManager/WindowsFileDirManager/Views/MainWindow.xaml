@@ -9,48 +9,122 @@
     x:Name="MainWindowView"
     Title="Windows Files and Directories Manager"
     Width="700"
-    Height="530"
+    Height="730"
     mc:Ignorable="d">
 
     <StackPanel Margin="10">
 
         <uc:ConfigHeader />
 
-        <TextBlock
-                    Margin="0,5,10,0"
-                    HorizontalAlignment="Left"
+        
+        <!-- Grid that contains ComboBox for ActionType, FilterType and Filter-->
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+           
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                    HorizontalAlignment="Center"
                     Text="Action" />
-        <ComboBox Name="Action">
-            <ComboBoxItem IsSelected="True">Rename</ComboBoxItem>
-            <ComboBoxItem >Delete</ComboBoxItem>
-        </ComboBox>
 
+                <ComboBox Grid.Row="1" ItemsSource="{Binding Path=SelectedActionType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}"
+              SelectedValuePath="Value"
+              DisplayMemberPath="Description"
+              SelectedValue="{Binding Path=SelectedActionType}" />  
+
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Text="Filter Type" />
+
+                <ComboBox Grid.Row="1" ItemsSource="{Binding Path=SelectedFilterType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}"
+          SelectedValuePath="Value"
+          DisplayMemberPath="Description"
+          SelectedValue="{Binding Path=SelectedFilterType}" />
+
+            </Grid>
+        </Grid>
+
+        <Grid Margin="10">
         <TextBlock
-                    Margin="0,5,10,0"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     Text="Filter" />
-        <ComboBox Name="Filter">
-            <ComboBoxItem IsSelected="True">startswith</ComboBoxItem>
-            <ComboBoxItem >endswith</ComboBoxItem>
-            <ComboBoxItem >contains</ComboBoxItem>
-            <ComboBoxItem >regexp</ComboBoxItem>
-        </ComboBox>
-
-        <TextBlock
-                    Margin="0,5,10,0"
-                    HorizontalAlignment="Left"
-                    Text="Operation" />
         <TextBox
                         Style="{StaticResource TextBoxStyle}"
                                                 IsEnabled="True"
-                        Text="{Binding Operation, Mode=OneWay}" />
+                        HorizontalAlignment="Center"
+                        Margin="0,30,0,0"
+                        Text="{Binding SelectedFilter, Mode=TwoWay}" />
+        </Grid>
+        <Button
+                Grid.Row="2"
+                Height="28"
+                Margin="10,0,10,10"
+                Width="150"
+                VerticalContentAlignment="Center"
+                Command="{Binding CmdAddOperation}"
+                Content="Add Operation"
+                FontSize="16">
+        </Button>
 
+        <!-- DataGrid for operations in queue-->
+        <DataGrid
+                CanUserAddRows="False"
+                AutoGenerateColumns="False"
+                GridLinesVisibility="None"
+                Grid.Row="1"
+                ItemsSource="{Binding CurrentApplicationData.OperationsConfigured}" >
+             
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Action"  Width="100" IsReadOnly="True" Binding="{Binding ActionType}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Filter"  Width="100" IsReadOnly="True" Binding="{Binding FilterType}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Filter Content" IsReadOnly="True" Binding="{Binding Filter}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button CommandParameter="{Binding}" Command="{Binding Path=DataContext.CmdDeleteSingleOperation,  RelativeSource= {RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">Delete</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Button
                 Grid.Row="2"
                 Height="28"
-                Margin="0,12,0,0"
+                Margin="10,10,10,10"
+                 Width="150"
                 VerticalContentAlignment="Center"
                 Command="{Binding CmdPreview}"
                 Content="Preview"
@@ -58,16 +132,75 @@
 
         </Button>
 
+
+        <!-- Grid that contains 2 data grid: one for preview and one for apply-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Text="Current Folder Content" />
+
+            <DataGrid Grid.Row="1" Grid.Column="0"
+                HeadersVisibility="None"
+                CanUserAddRows="False"
+                AutoGenerateColumns="False"
+                GridLinesVisibility="None"
+                MaxHeight="250"
+                ScrollViewer.CanContentScroll="True" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ItemsSource="{Binding CurrentApplicationData.Files}" >
+                 
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding }" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock Grid.Row="0" Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Text="Folder Content after confirm" />
+
+            <DataGrid  Grid.Row="1" Grid.Column="1"
+                CanUserAddRows="False"
+                AutoGenerateColumns="False"
+                GridLinesVisibility="None"
+                HeadersVisibility="None"
+                MaxHeight="250"
+                ScrollViewer.CanContentScroll="True" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                Visibility="{Binding ChangesGridVisible,  Converter={StaticResource BooleanToVisibilityConverter}}"
+                ItemsSource="{Binding CurrentApplicationData.Files}" >
+                 
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding }" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+
         <Button
                 Grid.Row="2"
                 Height="28"
                 Margin="0,12,0,0"
+                Width="150"
                 VerticalContentAlignment="Center"
                 Command="{Binding CmdConfirm}"
-                Content="Confirm"
+                Content="Confirm Changes"
                 FontSize="16">
 
         </Button>
+
 
     </StackPanel>
 

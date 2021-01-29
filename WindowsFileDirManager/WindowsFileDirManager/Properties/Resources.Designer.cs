@@ -61,6 +61,15 @@ namespace WindowsFileDirManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please add a filter.
+        /// </summary>
+        internal static string FILTER_MISSING {
+            get {
+                return ResourceManager.GetString("FILTER_MISSING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operation completed successfully..
         /// </summary>
         internal static string OPERATION_COMPLETED {
